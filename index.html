@@ -89,7 +89,7 @@
 
 <script>
   // ===== 變更為你的 Apps Script Web App URL（你的部署網址） =====
-const API_BASE = 'https://script.google.com/macros/s/AKfycbwxPZpxbdt4zeGvhgxY-oyxiHt9K8qj7_pztO7fsneWxw7YDFI8gMIgAsbcY151KkEO/exec';
+  const API_BASE = 'https://script.google.com/macros/s/AKfycbwxPZpxbdt4zeGvhgxY-oyxiHt9K8qj7_pztO7fsneWxw7YDFI8gMIgAsbcY151KkEO/exec';
 
   const TIMES = ["09:00","10:00","11:00","13:00","14:00","15:00","16:00"];
 
@@ -126,15 +126,24 @@ const API_BASE = 'https://script.google.com/macros/s/AKfycbwxPZpxbdt4zeGvhgxY-oy
   async function fetchBookedAndRender(){
     selectedTime = null;
     timesContainer.innerHTML = '讀取中...';
-    success.style.display='none'; msg.style.display='none';
+    success.style.display='none'; 
+    msg.style.display='none';
+
     const date = dateInput.value;
-    if(!date){ timesContainer.innerHTML = '請先選擇日期'; return; }
+    if(!date){
+      timesContainer.innerHTML = '請先選擇日期'; 
+      return; 
+    }
     try{
       const url = new URL(API_BASE);
+      // 確保傳送的日期是 YYYY-MM-DD 格式
       url.searchParams.set('date', date);
       const res = await fetch(url.toString(), { method: 'GET' });
       const json = await res.json();
-      if(!json.ok){ timesContainer.innerHTML = '取得資料失敗'; return; }
+      if(!json.ok){
+        timesContainer.innerHTML = '取得資料失敗'; 
+        return; 
+      }
       const booked = (json.bookings || []).map(b => b.time);
       timesContainer.innerHTML = '';
       TIMES.forEach(t => {
@@ -158,16 +167,24 @@ const API_BASE = 'https://script.google.com/macros/s/AKfycbwxPZpxbdt4zeGvhgxY-oy
   }
 
   clearBtn.addEventListener('click', () => {
-    serviceSelect.value=''; dateInput.value=''; nameInput.value=''; phoneInput.value=''; selectedTime=null;
-    timesContainer.innerHTML='請先選擇日期'; msg.style.display='none'; success.style.display='none';
+    serviceSelect.value='';
+    dateInput.value='';
+    nameInput.value='';
+    phoneInput.value='';
+    selectedTime=null;
+    timesContainer.innerHTML='請先選擇日期';
+    msg.style.display='none';
+    success.style.display='none';
   });
 
   bookBtn.addEventListener('click', async () => {
-    msg.style.display='none'; success.style.display='none';
+    msg.style.display='none'; 
+    success.style.display='none';
     const service = serviceSelect.value;
     const date = dateInput.value;
     const name = nameInput.value.trim();
     const phone = phoneInput.value.trim();
+
     if(!service || !date || !selectedTime || !name){
       showMsg('請完整填寫：服務、日期、時段、聯絡人姓名');
       return;
@@ -175,6 +192,7 @@ const API_BASE = 'https://script.google.com/macros/s/AKfycbwxPZpxbdt4zeGvhgxY-oy
 
     // 呼叫後端 POST
     try{
+      // 傳送日期為 YYYY-MM-DD 格式
       const payload = { service, date, time: selectedTime, name, phone };
       const res = await fetch(API_BASE, {
         method: 'POST',
@@ -204,8 +222,3 @@ const API_BASE = 'https://script.google.com/macros/s/AKfycbwxPZpxbdt4zeGvhgxY-oy
 </script>
 </body>
 </html>
-
-
-
-
-
