@@ -21,11 +21,20 @@
       <a-marker type="pattern" url="./pattern-daitaipresent.patt">
         <!-- 顯示舊建築 -->
         <a-image src="./daitaistage.png" position="0 0 0" rotation="-90 0 0" width="2" height="1.5"></a-image>
-      </a-marker>
+      
+        <!-- 顯示介紹文字 -->
+        <a-marker type="pattern" url="./pattern-daitaipresent.patt">
+        <a-plane src="./daitaistage.png" rotation="-90 0 0" height="2" width="2"
+                event-set__click="_event: click; visible: false"></a-plane>
+
+        <a-text value="大舞台大戲院介紹..." 
+                visible="false"
+                event-set__click="_event: click; visible: true">
+        </a-text>
+        </a-marker>
+    
+    </a-marker>
       <a-entity camera></a-entity>
     </a-scene>
   </body>
 </html>
-
-
-
