@@ -1,0 +1,52 @@
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>大舞台戲院 AR 導覽 (NFT Tracking)</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.3.2/aframe/build/aframe-ar-nft.js"></script>
+    <style>
+      body, html { margin: 0; overflow: hidden; }
+      #info {
+        position: absolute; top: 10px; left: 10px;
+        background: rgba(0,0,0,0.5); color: #fff; padding: 5px 10px;
+        font-size: 14px; border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="info">把相機對準「大舞台戲院現址」 → 出現歷史樣貌</div>
+    <a-scene
+      vr-mode-ui="enabled: false"
+      embedded
+      arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
+    >
+      <!-- NFT 圖像追蹤 -->
+      <a-nft
+        type="nft"
+        url="nft/daitaistage"   <!-- 不需要加副檔名，會自動找 .iset/.fset/.fset3 -->
+        smooth="true" smoothCount="10" smoothTolerance="0.01" smoothThreshold="5"
+      >
+        <!-- 舊建築圖片 -->
+        <a-plane src="Nft-Marker-Creator-App/src/大舞台大戲院.png"
+                 rotation="-90 0 0"
+                 height="2"
+                 width="3">
+        </a-plane>
+
+        <!-- 介紹文字 -->
+        <a-text value="大舞台大戲院\n建於1930年代\n曾是高雄最熱鬧的戲院之一"
+                position="0 1.5 0"
+                rotation="-90 0 0"
+                align="center"
+                color="yellow"
+                width="4">
+        </a-text>
+      </a-nft>
+
+      <a-entity camera></a-entity>
+    </a-scene>
+  </body>
+</html>
+```
